@@ -1,0 +1,99 @@
+    {% extends 'hod_template/base_template.html' %}
+    {% block page_title %}
+    Home
+    {% endblock page_title %}
+    {% block main_content %}
+    {% load static %}
+<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+        <div class="float-sm-right">
+          <p><a href="#" onclick="openMessageBox()">Message</a></p>
+        </div>
+        
+        <!-- Modal structure (hidden by default) -->
+        <div id="messageModal" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeMessageBox()">&times;</span>
+            <h2>Send Message to Everyone</h2>
+            
+            <!-- Form for sending a message -->
+            <form role="form" action="/save_add_message" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <textarea name="description" id="description" placeholder="Write your message here..." rows="5" cols="40" required></textarea>
+              <br />
+              <div class="form-group">
+                <label>Date</label>
+              <input type="date" id="end_date" name="end_date" class="form-control"/>
+              </div>
+              <button type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+
+        <p>we have <strong>{{context.count_trainer}} Trainer </strong> and <strong>{{context.count_customer}} Customer</strong></p>
+        <div class="mt-100 mb-100">
+          <p class="font-weight-bold text-center">List of Trainers</p>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>S.N</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Price</th>
+                  <th>Profile Pic</th>
+                </tr>
+              </thead>
+              <tbody>
+          {% for trainer in context.trainer %}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{trainer.admin.first_name}}  {{trainer.admin.last_name}}</td>
+                  <td>{{trainer.address}}</td>
+                  <td>{{trainer.price}}</td>
+                  <td>
+                    <img src="{{trainer.profile_pic}}" style="width:100px; height: 100px; border-radius: 100%" />
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+                </table>
+              </div>
+        </div>
+      </div>
+      
+      <div class="mt 100 mb 100">
+        <p class="font-weight-bold text-center">List of Customers</p>
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover text-nowrap">
+            <thead>
+              <tr>
+                <th>S.N</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Profile Pic</th>
+              </tr>
+            </thead>
+            <tbody>
+        {% for customer in context.customer %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{customer.admin.first_name}}  {{customer.admin.last_name}}</td>
+                <td>{{customer.address}}</td>
+                <td>
+                  <img src="{{customer.profile_pic}}" style="width:100px; height: 100px; border-radius: 100%" />
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+              </table>
+            </div>
+      </div>
+    </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <script src="{% static 'dist/js/home_content.js' %}?v={{ time }}"></script>
+    {% endblock main_content %}

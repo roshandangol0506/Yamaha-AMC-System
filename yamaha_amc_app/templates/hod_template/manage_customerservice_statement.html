@@ -1,0 +1,61 @@
+{% extends 'hod_template/base_template.html' %} {% block page_title %}
+Statements {% endblock page_title %} {% load static %} {% block main_content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Statement</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>S.N</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Email</th>
+                  <th>Date of Serviced</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for customer in customer_service_statement %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    {{customer.customerservice_id.customer_id.admin.first_name}}
+                    {{customer.customerservice_id.customer_id.admin.last_name}}
+                  </td>
+                  <td>{{customer.service_description}}</td>
+                  <td>
+                    {{customer.customerservice_id.customer_id.admin.email}}
+                  </td>
+                  <td>{{customer.service_date}}</td>
+                  <td></td>
+                </tr>
+
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+          {% if messages %} {% for message in messages %}
+          <div
+            class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}"
+          >
+            {{ message }}
+          </div>
+          {% endfor %} {% endif %}
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<script src="{% static 'dist/js/manage_student_template.js' %}?v={{ time }}"></script>
+{% endblock main_content %}

@@ -1,0 +1,120 @@
+{% extends 'hod_template/base_template.html' %}
+{% block page_title %}
+Manage Customer Servicing
+{% endblock page_title %}
+{% load static %}
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+     <div class="row">
+      <div class="col-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Customer Servicing Details</h3>
+            
+            <div class="card-tools">
+              <form method="GET" action="{% url 'manage_customer' %}">
+                <div class="input-group">
+                  <input type="text" name="search" class="form-control" placeholder="Search by name" value="{{ request.GET.search }}">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              {% if customer.exists %}
+              {% else %}
+                <p>No Gym Member found matching your search criteria.</p>
+              {% endif %}
+            </div>
+
+            <div class="card-tools mr-4">
+              <form method="GET" action="{% url 'manage_customer' %}" id="order-form">
+                <div class="input-group">
+                  <select name="order" class="form-control" value="{{ request.GET.order }}" onchange="this.form.submit()">
+                    <option value="name" {% if request.GET.order == 'name' %}selected{% endif %}>Name</option>
+                    <option value="join-date" {% if request.GET.order == 'join-date' %}selected{% endif %}>Join Date</option>
+                    <option value="height" {% if request.GET.order == 'height' %}selected{% endif %}>Height</option>
+                    <option value="weight" {% if request.GET.order == 'weight' %}selected{% endif %}>Weight</option>
+                    <option value="age" {% if request.GET.order == 'age' %}selected{% endif %}>Age</option>
+                    <option value="chest-size" {% if request.GET.order == 'chest-size' %}selected{% endif %}>Chest Size</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            
+
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>S.N</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Phone No</th>
+                  <th>Bike Name</th>
+                  <th>Frame No</th>
+                  <th>Profile Pic</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for customer in customer %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{customer.customer_id.admin.first_name}} {{customer.customer_id.admin.last_name}}</td>
+                  <td>{{customer.customer_id.address}}</td>
+                  <td>{{customer.customer_id.phoneno}}</td>
+                  <td>{{customer.customer_id.model}} ({{customer.customer_id.registration_no}})</td>
+                  <td>{{customer.customer_id.frame_no}}</td>
+                  <td><img src="{{customer.customer_id.profile_pic}}" style="width:100px; height: 100px; border-radius: 100%"/></td>
+                  <form
+                  role="form"
+                  action="/customer_served"
+                  method="post"
+                  enctype="multipart/form-data"
+                >
+                  {% csrf_token %}
+                  <div class="card-body">
+                    <div class="form-group">
+                    <input type="hidden" id="customer_id" name="customer_id"value="{{ customer.customer_id.id }}" readonly />
+                      <td><input type="text" id="description" name="description" class="form-control" /></td>
+                    </div>
+                    <div class="card-footer">
+                      <td><button type="submit" id="sure-button" class="btn btn-primary btn-block">
+                        Sure
+                      </button></td>
+                      <td><a href="/delete_customeragree/{{customer.id}}" class="btn btn-danger" onclick="return confirmDeleteCustomer();">Delete</a></td>
+                    </div>
+                  </div>
+                </form>
+                  <td>
+                  </td>
+
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+          {% if messages %}
+{% for message in messages %}
+    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+        {{ message }}
+    </div>
+{% endfor %}
+{% endif %}
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<script src="{% static 'dist/js/manage_student_template.js' %}?v={{ time }}"></script>
+{% endblock main_content %}

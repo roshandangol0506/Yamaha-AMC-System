@@ -1,0 +1,12 @@
+{% extends 'hod_template/base_template.html' %} {% block page_title %} Manage
+Event {% endblock page_title %}{% block main_content %}
+<h2>Send Email</h2>
+
+    <p>
+        <a href="mailto:{{ emails_string }}?subject={{ subject }}&body={{ body }}">
+            Click here to send an email to {{name}}.
+        </a>
+    </p>
+
+    <p>The email client (Gmail or other) will open with the details.</p>
+{% endblock main_content %}

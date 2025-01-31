@@ -1,0 +1,160 @@
+{% load static %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a href="{% url 'admin_home' %}" class="brand-link">
+    <span class="brand-text font-weight-light">Admin Panel</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="{%static "dist/img/AdminLTELogo.png" %}" class="img-circle
+        elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+        <a href="{% url 'admin_home' %}" class="d-block">{{user.username}}</a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        {% comment %} <li class="nav-item">
+          {% url 'add_trainer' as add_trainer %}
+          <a
+            href="{{ add_trainer }}"
+            class="nav-link {% if request.path == add_trainer %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Add Trainer
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          {% url 'manage_trainer' as manage_trainer %}
+          {% url 'edit_trainer' trainer_id=id as edit_trainer %}
+          <a
+            href="{{ manage_trainer }}"
+            class="nav-link {% if request.path == manage_trainer %} active {% endif %} {% if request.path == edit_trainer %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Manage Trainer
+            </p>
+          </a>
+        </li> {% endcomment %}
+        <li class="nav-item">
+          {% url 'add_customer' as add_customer %}
+          <a
+            href="{{ add_customer }}"
+            class="nav-link {% if request.path == add_customer %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              AMC Registration Form
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          {% url 'manage_customer' as manage_customer %}
+          {% url 'edit_customer' customer_id=id as edit_customer %}
+          <a
+            href="{{ manage_customer }}"
+            class="nav-link {% if request.path == manage_customer %} active {% endif %} {% if request.path == edit_customer %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Manage AMC Forms
+            </p>
+          </a>
+        </li>
+        {% comment %} <li class="nav-item">
+          {% url 'add_gymfees' as add_gymfees %}
+          <a
+            href="{{ add_gymfees }}"
+            class="nav-link {% if request.path == add_gymfees %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Add Gym Fees
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          {% url 'manage_gymfees' as manage_gymfees %}
+          {% url 'edit_gymfees' customerdue_id=id as edit_gymfees %}
+          {% url 'send_gymfees' customerdue_id=id as send_gymfees %}
+          <a
+            href="{{ manage_gymfees }}"
+            class="nav-link {% if request.path == manage_gymfees %} active {% endif %} {% if request.path == edit_gymfees %} active {% endif %} {% if request.path == send_gymfees %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Manage Gym Fees
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          {% url 'add_event' as add_event %}
+          <a
+            href="{{ add_event }}"
+            class="nav-link {% if request.path == add_event %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Add Event
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          {% url 'manage_event' as manage_event %}
+          {% url 'edit_event' event_id=id as edit_event %}
+          {% url 'send_event' event_id=id as send_event %}
+          <a
+            href="{{ manage_event }}"
+            class="nav-link {% if request.path == manage_event %} active {% endif %} {% if request.path == edit_event %} active {% endif %} {% if request.path == send_event %} active {% endif %} {% if request.path == manage_participation %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Manage Event
+            </p>
+          </a>
+        </li> {% endcomment %}
+        <li class="nav-item">
+          {% url 'customer_urldetails' as customer_urldetails %}
+          <a
+            href="{{ customer_urldetails }}"
+            class="nav-link {% if request.path == customer_urldetails %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              customer Urldetails
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          {% url 'customer_service' as customer_service %}
+          <a
+            href="{{ customer_service }}"
+            class="nav-link {% if request.path == customer_service %} active {% endif %}"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              customer Service
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

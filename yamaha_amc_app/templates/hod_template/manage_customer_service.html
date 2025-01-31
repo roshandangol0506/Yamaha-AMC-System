@@ -1,0 +1,128 @@
+{% extends 'hod_template/base_template.html' %}
+{% block page_title %}
+Manage Customer Service
+{% endblock page_title %}
+{% load static %}
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+     <div class="row">
+      <div class="col-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Customer Service Details</h3>
+            
+            <div class="card-tools">
+              <form method="GET" action="{% url 'customer_service' %}">
+                <div class="input-group">
+                  <input type="text" name="search" class="form-control" placeholder="Search by name" value="{{ request.GET.search }}">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              {% if customer.exists %}
+              {% else %}
+                <p>No Gym Member found matching your search criteria.</p>
+              {% endif %}
+            </div>
+
+            <div class="card-tools mr-4">
+              <form method="GET" action="{% url 'customer_service' %}" id="order-form">
+                <div class="input-group">
+                  <select name="order" class="form-control" value="{{ request.GET.order }}" onchange="this.form.submit()">
+                    <option value="name" {% if request.GET.order == 'name' %}selected{% endif %}>Name</option>
+                    <option value="no-of-service" {% if request.GET.order == 'no-of-service' %}selected{% endif %}>No of Service</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            
+
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>S.N</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Address</th>
+                  <th>Phone No</th>
+                  <th>Gender</th>
+                  <th>Profile Pic</th>
+                  <th>No of Service</th>
+                  <th>Effective From</th>
+                  <th>Days Left</th>
+                  <th>Effective To</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for customer in customer %}
+                <tr class="customer-row {% if customer.no_of_service == 0 %}expired-row{% endif %}" 
+                data-no-of-service="{{ customer.no_of_service }}">
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{customer.customer_id.admin.first_name}} {{customer.customer_id.admin.last_name}}</td>
+                  <td>{{customer.customer_id.admin.email}}</td>
+                  <td>{{customer.customer_id.address}}</td>
+                  <td>{{customer.customer_id.phoneno}}</td>
+                  <td>{{customer.customer_id.gender}}</td>
+                  <td><img src="{{customer.customer_id.profile_pic}}" style="width:100px; height: 100px; border-radius: 100%"/></td>
+                  <td>{{customer.no_of_service}}</td>
+                  <td>{{customer.effective_from}}</td>
+                  <td class="days-left"></td>
+                  <td>{{customer.effective_to}}</td>
+                  <td><a href="/edit_customer_service/{{customer.id}}" class="btn btn-success">Edit</a>
+                    <a href="/customer_service_statement/{{customer.id}}" class="btn btn-danger">Statement</a>
+                    <a 
+    class="btn btn-info" 
+    href="javascript:void(0);" 
+    onclick="copyUrl('{{ customer.customer_id.unique_id }}')">
+    Copy URL
+</a>
+                  </td>
+
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+          {% if messages %}
+{% for message in messages %}
+    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+        {{ message }}
+    </div>
+{% endfor %}
+{% endif %}
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<script src="{% static 'dist/js/manage_student_template.js' %}?v={{ time }}"></script>
+<script src="{% static 'dist/js/manage_gymfees_template.js' %}?v={{ time }}"></script>
+<script>
+  function copyUrl(customerId) {
+      // Define the base URL
+      const baseUrl = "http://localhost:8000/customer_agree/";
+      const fullUrl = baseUrl + customerId;
+
+      // Copy the URL to the clipboard
+      navigator.clipboard.writeText(fullUrl).then(() => {
+          // Show a success message
+          alert("URL copied to clipboard: " + fullUrl);
+      }).catch(err => {
+          // Handle any errors
+          alert("Failed to copy URL: " + err);
+      });
+  }
+</script>
+{% endblock main_content %}
